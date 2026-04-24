@@ -3,16 +3,21 @@ import Login from "../pages/Login";
 import AdminDashboard from "../pages/AdminDashboard";
 import DealerDashboard from "../pages/DealerDashboard";
 import { useAuth } from "../context/AuthContext";
+import Unauthorized from "../pages/Unauthorized";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { role, loading } = useAuth();
 
   if (loading) return <p>Loading...</p>;
 
-  if (!role) return <p>Loading user...</p>;
+  // Not logged in
+  if (!role) {
+    return <Navigate to="/" replace />;
+  }
 
+  // Logged in but not allowed in THIS app
   if (!allowedRoles.includes(role)) {
-    return <Navigate to="/" />;
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return children;
@@ -40,6 +45,11 @@ export default function AppRoutes() {
             <DealerDashboard />
           </ProtectedRoute>
         }
+      />
+
+      <Route 
+        path="/unauthorized" 
+        element={<Unauthorized />} 
       />
 
     </Routes>

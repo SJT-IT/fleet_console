@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate(); // 🔥 add this
+  const navigate = useNavigate(); // add this
 
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
     let userData;
 
-    // 🔥 IF USER DOES NOT EXIST → CREATE
+    // IF USER DOES NOT EXIST → CREATE
     if (!snap.exists()) {
       userData = {
         userId: firebaseUser.uid,
@@ -59,11 +59,11 @@ export const AuthProvider = ({ children }) => {
       userData = snap.data();
     }
 
-    // 🔥 SET STATE ONCE
+    // SET STATE ONCE
     setRole(userData.role);
     setDealerId(userData.dealerId);
 
-    // 🔥 NAVIGATION
+    // NAVIGATION
     if (userData.role === "Admin") navigate("/admin");
     else if (userData.role === "Dealer") navigate("/dealer");
 
